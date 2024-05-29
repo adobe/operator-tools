@@ -1,5 +1,5 @@
-LICENSEI_VERSION = 0.2.0
-GOLANGCI_VERSION = 1.21.0
+,aLICENSEI_VERSION = 0.9.0
+GOLANGCI_VERSION = 1.57.2
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))
@@ -11,13 +11,13 @@ endif
 BIN := ${PWD}/bin
 export PATH := ${BIN}:${PATH}
 
-CONTROLLER_GEN_VERSION = v0.4.1
+CONTROLLER_GEN_VERSION = v0.15.0
 CONTROLLER_GEN = $(PWD)/bin/controller-gen
 
 OS = $(shell uname | tr A-Z a-z)
 
 ENVTEST_BIN_DIR := ${BIN}/envtest
-ENVTEST_K8S_VERSION := 1.22.1
+ENVTEST_K8S_VERSION := 1.27.x!
 ENVTEST_BINARY_ASSETS := ${ENVTEST_BIN_DIR}/bin
 
 SETUP_ENVTEST := ${BIN}/setup-envtest
@@ -31,22 +31,18 @@ generate: bin/controller-gen
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./pkg/typeoverride/...
 	$(CONTROLLER_GEN) object:headerFile=./hack/boilerplate.go.txt paths=./pkg/helm/...
 
-bin/controller-gen:
-	@ if ! test -x bin/controller-gen; then \
-		set -ex ;\
-		CONTROLLER_GEN_TMP_DIR=$$(mktemp -d) ;\
-		cd $$CONTROLLER_GEN_TMP_DIR ;\
-		go mod init tmp ;\
-		GOBIN=$(PWD)/bin go get sigs.k8s.io/controller-tools/cmd/controller-gen@${CONTROLLER_GEN_VERSION} ;\
-		rm -rf $$CONTROLLER_GEN_TMP_DIR ;\
-	fi
+bin/controller-gen: bin/controller-gen-$(CONTROLLER_GEN_VERSION) ## Symlink controller-gen-<version> into versionless controller-gen.
+	@ln -sf controller-gen-$(CONTROLLER_GEN_VERSION) bin/controller-gen
 
+bin/controller-gen-$(CONTROLLER_GEN_VERSION): ## Download versioned controller-gen.
+	GOBIN=$(PWD)/bin go install sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_GEN_VERSION)
+	mv bin/controller-gen bin/controller-gen-$(CONTROLLER_GEN_VERSION)
 
-bin/licensei: bin/licensei-${LICENSEI_VERSION}
+bin/licensei: bin/licensei-${LICENSEI_VERSION} ## Symlink licensei-<version> into versionless licensei.
 	@ln -sf licensei-${LICENSEI_VERSION} bin/licensei
-bin/licensei-${LICENSEI_VERSION}:
+bin/licensei-${LICENSEI_VERSION}: ## Download versioned licensei.
 	@mkdir -p bin
-	curl -sfL https://git.io/licensei | bash -s v${LICENSEI_VERSION}
+	curl -sfL https://raw.githubusercontent.com/goph/licensei/master/install.sh | bash -s ${LICENSEI_VERSION}
 	@mv bin/licensei $@
 
 .PHONY: license-cache
@@ -65,11 +61,11 @@ test: ${ENVTEST_BINARY_ASSETS}
 .PHONY: check
 check: test lint check-diff ## Run tests and linters
 
-bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
+bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION} ## Symlink golangi-lint-<version> into versionless golangci-lint.
 	@ln -sf golangci-lint-${GOLANGCI_VERSION} bin/golangci-lint
-bin/golangci-lint-${GOLANGCI_VERSION}:
+bin/golangci-lint-${GOLANGCI_VERSION}: ## Download versioned golangci-lint.
 	@mkdir -p bin
-	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b ./bin/ v${GOLANGCI_VERSION}
+	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | bash -s -- -b ./bin v${GOLANGCI_VERSION}
 	@mv bin/golangci-lint $@
 
 .PHONY: lint
@@ -106,6 +102,19 @@ ${ENVTEST_BIN_DIR}: | ${BIN}
 
 ${BIN}:
 	mkdir -p $@
+
+update-go-deps:
+	for dir in .; do \
+		( \
+		echo "Updating $$dir deps"; \
+		cd $$dir; \
+		go mod tidy; \
+		for m in $$(go list -mod=readonly -m -f '{{ if and (not .Replace) (not .Indirect) (not .Main)}}{{.Path}}{{end}}' all); do \
+			go get -d $$m; \
+		done; \
+		go mod tidy \
+		) \
+	done
 
 define go_install_binary
 find ${BIN} -name '$(notdir ${IMPORT_PATH})_*' -exec rm {} +

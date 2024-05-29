@@ -18,7 +18,7 @@ package main
 import (
 	corev1 "k8s.io/api/core/v1"
 	github.com/go-logr/logr
-	"github.com/banzaicloud/operator-tools/pkg/reconciler"
+	"github.com/adobe/operator-tools/pkg/reconciler"
 	runtimeClient "sigs.k8s.io/controller-runtime/pkg/client"
 )
 

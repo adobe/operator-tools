@@ -23,8 +23,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	k8syaml "sigs.k8s.io/yaml"
 
-	"github.com/banzaicloud/operator-tools/pkg/types"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/utils"
 )
 
 type GroupVersionKind struct {

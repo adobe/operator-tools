@@ -15,22 +15,22 @@
 package docgen_test
 
 import (
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"runtime"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
+	"github.com/adobe/operator-tools/pkg/docgen"
 	"github.com/andreyvit/diff"
-	"github.com/banzaicloud/operator-tools/pkg/docgen"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
 	"github.com/go-logr/logr"
 )
 
 var logger logr.Logger
 
 func init() {
-	logger = utils.Log
+	logger = logf.Log
 }
 
 func TestGenParse(t *testing.T) {
@@ -106,7 +106,7 @@ func TestGenParse(t *testing.T) {
 			t.Fatalf("%+v", err)
 		}
 
-		bytes, err := ioutil.ReadFile(filepath.Join(item.docItem.DestPath, item.docItem.Name+".md"))
+		bytes, err := os.ReadFile(filepath.Join(item.docItem.DestPath, item.docItem.Name+".md"))
 		if err != nil {
 			t.Fatalf("%+v", err)
 		}

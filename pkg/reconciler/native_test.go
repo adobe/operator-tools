@@ -31,9 +31,9 @@ import (
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/builder"
 
-	"github.com/banzaicloud/operator-tools/pkg/reconciler"
-	ottypes "github.com/banzaicloud/operator-tools/pkg/types"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/reconciler"
+	ottypes "github.com/adobe/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/utils"
 )
 
 // FakeResourceOwner object implements the ResourceOwner interface by piggybacking a ConfigMap (oink-oink)
@@ -335,7 +335,7 @@ func TestCreatedDesiredStateAnnotationWithStaticStatePresent(t *testing.T) {
 	desiredMutated := desired.DeepCopy()
 	desiredMutated.Data["a"] = "c"
 
-	nr := reconciler.NewNativeReconcilerWithDefaults("test", k8sClient, clientgoscheme.Scheme, logr.DiscardLogger{}, func(parent reconciler.ResourceOwner, object interface{}) []reconciler.ResourceBuilder {
+	nr := reconciler.NewNativeReconcilerWithDefaults("test", k8sClient, clientgoscheme.Scheme, logr.Logger{}, func(parent reconciler.ResourceOwner, object interface{}) []reconciler.ResourceBuilder {
 		return []reconciler.ResourceBuilder{
 			func() (runtime.Object, reconciler.DesiredState, error) {
 				return desiredMutated, reconciler.StatePresent, nil
@@ -388,7 +388,7 @@ func TestCreatedDesiredStateAnnotationWithDynamicStatePresent(t *testing.T) {
 	desiredMutated := desired.DeepCopy()
 	desiredMutated.Data["a"] = "c"
 
-	nr := reconciler.NewNativeReconcilerWithDefaults("test", k8sClient, clientgoscheme.Scheme, logr.DiscardLogger{}, func(parent reconciler.ResourceOwner, object interface{}) []reconciler.ResourceBuilder {
+	nr := reconciler.NewNativeReconcilerWithDefaults("test", k8sClient, clientgoscheme.Scheme, logr.Logger{}, func(parent reconciler.ResourceOwner, object interface{}) []reconciler.ResourceBuilder {
 		return []reconciler.ResourceBuilder{
 			func() (runtime.Object, reconciler.DesiredState, error) {
 				return desiredMutated, reconciler.DynamicDesiredState{

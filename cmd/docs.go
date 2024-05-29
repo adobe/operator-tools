@@ -17,14 +17,14 @@ package main
 import (
 	"fmt"
 	"path/filepath"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 
 	"emperror.dev/errors"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/banzaicloud/operator-tools/pkg/docgen"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/docgen"
 )
 
-var logger = utils.Log
+var logger = logf.Log
 
 func main() {
 	crds()

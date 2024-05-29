@@ -21,7 +21,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/banzaicloud/operator-tools/pkg/wait"
+	"github.com/adobe/operator-tools/pkg/wait"
 )
 
 func IstioSidecarInjectorExistsCheck(c client.Client, namespace string) wait.CustomResourceConditionCheck {

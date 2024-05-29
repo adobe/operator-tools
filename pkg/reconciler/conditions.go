@@ -23,7 +23,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/banzaicloud/operator-tools/pkg/wait"
+	"github.com/adobe/operator-tools/pkg/wait"
 )
 
 var DefaultBackoff = wait.Backoff{
