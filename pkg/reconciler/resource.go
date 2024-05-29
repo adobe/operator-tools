@@ -38,9 +38,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	"github.com/adobe/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/utils"
 	"github.com/banzaicloud/k8s-objectmatcher/patch"
-	"github.com/banzaicloud/operator-tools/pkg/types"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
 )
 
 const (
@@ -312,10 +312,8 @@ func NewReconcilerWith(client client.Client, opts ...ResourceReconcilerOption) R
 	for _, opt := range opts {
 		opt(&options)
 	}
-	rec := NewGenericReconciler(client, log.NullLogger{}, options)
-	if options.Log != nil {
-		rec.Log = options.Log
-	}
+	rec := NewGenericReconciler(client, log.Log, options)
+	rec.Log = options.Log
 	return rec
 }
 
@@ -575,7 +573,7 @@ func (r *GenericResourceReconciler) CreateIfNotExist(desired runtime.Object, des
 		}
 		switch t := desired.DeepCopyObject().(type) {
 		case *v1beta1.CustomResourceDefinition:
-			err = wait.Poll(time.Second*1, time.Second*10, func() (done bool, err error) {
+			err = wait.PollUntilContextTimeout(context.Background(), time.Second*1, time.Second*10, false, func(ctx context.Context) (done bool, err error) {
 				err = r.Client.Get(context.TODO(), client.ObjectKey{Namespace: t.Namespace, Name: t.Name}, t)
 				if err != nil {
 					return false, err
@@ -586,7 +584,7 @@ func (r *GenericResourceReconciler) CreateIfNotExist(desired runtime.Object, des
 				return false, nil, errors.WrapIfWithDetails(err, "failed to wait for the crd to get ready", resourceDetails...)
 			}
 		case *v1.CustomResourceDefinition:
-			err = wait.Poll(time.Second*1, time.Second*10, func() (done bool, err error) {
+			err = wait.PollUntilContextTimeout(context.Background(), time.Second*1, time.Second*10, false, func(ctx context.Context) (done bool, err error) {
 				err = r.Client.Get(context.TODO(), client.ObjectKey{Namespace: t.Namespace, Name: t.Name}, t)
 				if err != nil {
 					return false, err

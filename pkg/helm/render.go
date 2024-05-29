@@ -22,7 +22,7 @@ import (
 	"strings"
 
 	"emperror.dev/errors"
-	"github.com/banzaicloud/operator-tools/pkg/resources"
+	"github.com/adobe/operator-tools/pkg/resources"
 	"github.com/ghodss/yaml"
 	"helm.sh/helm/v3/pkg/chart"
 	"helm.sh/helm/v3/pkg/releaseutil"

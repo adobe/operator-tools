@@ -17,8 +17,8 @@ package merge
 import (
 	"testing"
 
-	"github.com/banzaicloud/operator-tools/pkg/typeoverride"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/typeoverride"
+	"github.com/adobe/operator-tools/pkg/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	v1 "k8s.io/api/apps/v1"

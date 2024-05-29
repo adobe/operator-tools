@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"testing"
 
-	"github.com/banzaicloud/operator-tools/pkg/utils"
 	"github.com/go-logr/logr"
 	"github.com/pborman/uuid"
 	corev1 "k8s.io/api/core/v1"
@@ -40,8 +40,7 @@ var controlNamespace = "control"
 var log logr.Logger
 
 func TestMain(m *testing.M) {
-	log = utils.Log
-	utils.GlobalLogLevel = 2
+	log = logf.Log
 	err := beforeSuite()
 	if err != nil {
 		fmt.Printf("%+v", err)

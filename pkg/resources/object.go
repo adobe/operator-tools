@@ -26,11 +26,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
 	k8syaml "k8s.io/apimachinery/pkg/util/yaml"
-
-	"github.com/banzaicloud/operator-tools/pkg/logger"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 )
 
-var log = logger.Log
+var log = logf.Log
 
 const (
 	// YAMLSeparator is a separator for multi-document YAML files.

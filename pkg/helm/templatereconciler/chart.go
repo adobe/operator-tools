@@ -20,9 +20,9 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/yaml"
 
-	"github.com/banzaicloud/operator-tools/pkg/helm"
-	"github.com/banzaicloud/operator-tools/pkg/reconciler"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/helm"
+	"github.com/adobe/operator-tools/pkg/reconciler"
+	"github.com/adobe/operator-tools/pkg/utils"
 )
 
 func orderedChartObjectsWithState(releaseData *ReleaseData, scheme *runtime.Scheme, caps chartutil.Capabilities) ([]runtime.Object, reconciler.DesiredState, error) {

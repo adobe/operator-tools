@@ -38,10 +38,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	"github.com/banzaicloud/operator-tools/pkg/resources"
-	"github.com/banzaicloud/operator-tools/pkg/types"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
-	"github.com/banzaicloud/operator-tools/pkg/wait"
+	"github.com/adobe/operator-tools/pkg/resources"
+	"github.com/adobe/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/wait"
 )
 
 type ResourceOwner interface {

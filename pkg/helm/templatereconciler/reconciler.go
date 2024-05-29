@@ -32,11 +32,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	"github.com/banzaicloud/operator-tools/pkg/inventory"
-	"github.com/banzaicloud/operator-tools/pkg/logger"
-	"github.com/banzaicloud/operator-tools/pkg/reconciler"
-	"github.com/banzaicloud/operator-tools/pkg/resources"
-	"github.com/banzaicloud/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/inventory"
+	"github.com/adobe/operator-tools/pkg/reconciler"
+	"github.com/adobe/operator-tools/pkg/resources"
+	"github.com/adobe/operator-tools/pkg/types"
 )
 
 type ReleaseData struct {
@@ -187,8 +186,6 @@ func (rec *HelmReconciler) Reconcile(object runtime.Object, component Component)
 
 		}
 	}
-
-	defer logger.EnableGroupSession(rec.logger)()
 
 	rec.logger.Info("syncing resources")
 
@@ -350,11 +347,11 @@ func (rec *HelmReconciler) reconcile(parent reconciler.ResourceOwner, component 
 }
 
 func (rec *HelmReconciler) setDesiredStateOverrides(resourceBuilders []reconciler.ResourceBuilder, releaseData *ReleaseData) []reconciler.ResourceBuilder {
-	resources := []reconciler.ResourceBuilder{}
+	resourceBuilder := []reconciler.ResourceBuilder{}
 
 	for _, rb := range resourceBuilders {
 		rb := rb
-		resources = append(resources, func() (runtime.Object, reconciler.DesiredState, error) {
+		resourceBuilder = append(resourceBuilder, func() (runtime.Object, reconciler.DesiredState, error) {
 			o, state, err := rb()
 			if err != nil {
 				return nil, nil, err
@@ -397,7 +394,7 @@ func (rec *HelmReconciler) setDesiredStateOverrides(resourceBuilders []reconcile
 		})
 	}
 
-	return resources
+	return resourceBuilder
 }
 
 func (rec HelmReconciler) RegisterWatches(_ *controllerruntime.Builder) {}

@@ -19,7 +19,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/banzaicloud/k8s-objectmatcher/patch"
-	"github.com/banzaicloud/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/types"
 )
 
 type SkipCreatePredicate struct {

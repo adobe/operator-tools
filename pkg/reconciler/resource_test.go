@@ -16,10 +16,11 @@ package reconciler_test
 
 import (
 	"context"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"testing"
 
-	"github.com/banzaicloud/operator-tools/pkg/reconciler"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/reconciler"
+	"github.com/adobe/operator-tools/pkg/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	appsv1 "k8s.io/api/apps/v1"
@@ -73,7 +74,7 @@ func TestNewReconcilerWithUnstructured(t *testing.T) {
 	}
 	desired.SetAPIVersion("v1")
 	desired.SetKind("ConfigMap")
-	r := reconciler.NewReconcilerWith(k8sClient, reconciler.WithEnableRecreateWorkload(), reconciler.WithLog(utils.Log))
+	r := reconciler.NewReconcilerWith(k8sClient, reconciler.WithEnableRecreateWorkload(), reconciler.WithLog(logf.Log))
 	result, err := r.ReconcileResource(desired, reconciler.StatePresent)
 	if result != nil {
 		t.Fatalf("result expected to be nil if everything went smooth")

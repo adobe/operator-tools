@@ -18,9 +18,9 @@ import (
 	"context"
 
 	"emperror.dev/errors"
-	"github.com/banzaicloud/operator-tools/pkg/resources"
-	"github.com/banzaicloud/operator-tools/pkg/types"
-	"github.com/banzaicloud/operator-tools/pkg/utils"
+	"github.com/adobe/operator-tools/pkg/resources"
+	"github.com/adobe/operator-tools/pkg/types"
+	"github.com/adobe/operator-tools/pkg/utils"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"

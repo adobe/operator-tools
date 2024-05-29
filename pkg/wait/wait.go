@@ -50,11 +50,6 @@ func NewResourceConditionChecks(client client.Client, backoff Backoff, log logr.
 func (c *ResourceConditionChecks) WaitForCustomConditionChecks(id string, checkFuncs ...CustomResourceConditionCheck) error {
 	log := c.log.WithName(id)
 
-	if l, ok := log.(interface{ Grouped(state bool) }); ok {
-		l.Grouped(true)
-		defer l.Grouped(false)
-	}
-
 	log.Info("waiting")
 
 	err := wait.ExponentialBackoff(c.backoff, func() (bool, error) {
@@ -84,11 +79,6 @@ func (c *ResourceConditionChecks) WaitForResources(id string, objects []runtime.
 	}
 
 	log := c.log.WithName(id)
-
-	if l, ok := log.(interface{ Grouped(state bool) }); ok {
-		l.Grouped(true)
-		defer l.Grouped(false)
-	}
 
 	log.Info("waiting")
 
