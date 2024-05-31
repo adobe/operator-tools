@@ -6,7 +6,7 @@ toolchain go1.22.2
 
 require (
 	emperror.dev/errors v0.8.1
-	github.com/MakeNowJust/heredoc v1.0.0
+	github.com/MakeNowJust/heredoc/v2 v2.0.1
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883
 	github.com/banzaicloud/k8s-objectmatcher v1.8.0
 	github.com/cppforlife/go-patch v0.2.0
@@ -29,6 +29,8 @@ require (
 	sigs.k8s.io/controller-runtime v0.18.3
 	sigs.k8s.io/yaml v1.4.0
 )
+
+require github.com/MakeNowJust/heredoc v1.0.0
 
 require (
 	github.com/AdaLogics/go-fuzz-headers v0.0.0-20230811130428-ced1acdcaa24 // indirect
