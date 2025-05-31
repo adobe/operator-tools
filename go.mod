@@ -12,7 +12,7 @@ require (
 	github.com/cppforlife/go-patch v0.2.0
 	github.com/fatih/color v1.17.0 // indirect
 	github.com/ghodss/yaml v1.0.0
-	github.com/go-logr/logr v1.4.1
+	github.com/go-logr/logr v1.4.3
 	github.com/go-test/deep v1.1.0
 	github.com/huandu/xstrings v1.4.0 // indirect
 	github.com/iancoleman/orderedmap v0.3.0
