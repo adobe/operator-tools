@@ -2,7 +2,7 @@ module github.com/adobe/operator-tools
 
 go 1.22.0
 
-toolchain go1.22.2
+toolchain go1.25.1
 
 require (
 	emperror.dev/errors v0.8.1
